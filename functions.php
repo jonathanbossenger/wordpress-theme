@@ -33,3 +33,16 @@ function wp_learn_theme_setup() {
 		)
 	);
 }
+
+/**
+ * Modify the post content through the_content filter
+ *
+ * https://developer.wordpress.org/reference/hooks/the_content/
+ */
+add_filter( 'the_content', 'wp_learn_amend_content' );
+function wp_learn_amend_content( $content ) {
+	$additional_content = '<!-- wp:paragraph --><p>Filtered through <i>the_content</i></p><!-- /wp:paragraph -->';
+	$content            = $content . $additional_content;
+
+	return $content;
+}
