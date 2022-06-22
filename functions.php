@@ -21,14 +21,6 @@ function wp_learn_setup_theme() {
 	add_theme_support( 'post-formats', array( 'aside', 'gallery' ) );
 }
 
-add_filter( 'the_content', 'wp_learn_the_content', 9999 );
-function wp_learn_the_content( $content ) {
-	// do something with $content
-	$additional_content = '<!-- wp:paragraph --><p>Filtered through <i>the_content</i></p><!-- /wp:paragraph -->';
-	$content            = $content . $additional_content;
-	return $content;
-}
-
 add_action( 'save_post', 'wp_learn_amend_post_meta', 10, 3 );
 function wp_learn_amend_post_meta( $post_ID, $post, $update ) {
 	if ( true === $update ) {
@@ -36,8 +28,18 @@ function wp_learn_amend_post_meta( $post_ID, $post, $update ) {
 	}
 }
 
-add_filter( 'body_class', 'my_body_class', 10, 2 );
-function my_body_class( $classes, $class ) {
-	error_log( print_r( array( $classes, $class ), true ) );
-	return $classes;
+add_filter( 'the_content', 'wp_learn_the_content', 11 );
+function wp_learn_the_content( $content ) {
+	// do something with $content
+	$additional_content = '<!-- wp:paragraph --><p>Filtered through <i>the_content</i></p><!-- /wp:paragraph -->';
+	$content            = $content . $additional_content;
+	return $content;
+}
+
+add_filter( 'get_the_excerpt', 'wp_learn_amend_the_excerpt', 11, 2 );
+function wp_learn_amend_the_excerpt( $post_excerpt, $post ) {
+	$additional_content = '<p><b>'. $post->post_title . '</b> Verified by Search Engine</p>';
+	$post_excerpt       = $post_excerpt . $additional_content;
+
+	return $post_excerpt;
 }
