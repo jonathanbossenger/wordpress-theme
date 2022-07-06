@@ -6,6 +6,10 @@
  * Tags: clean, basic
 */
 
+body {
+    padding: 20px;
+}
+
 h2 {
     color: #4e3288;
 }
